@@ -1,0 +1,21 @@
+name: Lint Action
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - uses: actions/setup-node@master
+      - name: Install dependencies
+        run: yarn install
+      - name: Run Lint
+        run: yarn lint
